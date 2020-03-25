@@ -14,21 +14,13 @@ app.get("/", (req, res) => {
     const sqlConnection = mysql.createConnection(sqlConfig);
 
     sqlConnection.query(
-        "SELECT id, email, firstname, lastname, birthdate FROM node_users",
+        "SELECT id, email, firstname, lastname, birthdate FROM node_users WHERE id = 2 LIMIT 1",
         (error, result) => {
             if (error) {
                 console.log("ERROR :", error.code);
             } else {
-                console.log("RESULT :", result);
+                res.send(result[0]);
             }
             sqlConnection.end();
         });
-    
-    res.send ({
-        id: 1,
-        email: "opale60@hotmail.fr",
-        firstname: "Anais",
-        lastname: "Sch",
-        birthdate: new Date(1993, 12, 17),
-    });
 });
