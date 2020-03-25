@@ -10,7 +10,9 @@ app.listen(3000, () =>  {
     console.log("SERVER STARTED !");
 });
 
-app.get("/", (req, res) => {
+app.use(express.static("./public"));
+
+app.get("/api/user", (req, res) => {
     const sqlConnection = mysql.createConnection(sqlConfig);
 
     sqlConnection.query(
@@ -23,4 +25,19 @@ app.get("/", (req, res) => {
             }
             sqlConnection.end();
         });
+});
+
+app.get("/api/user/create", (req, res) => {
+    const sqlConnection = mysql.createConnection(sqlConfig);
+
+    sqlConnection.query("INSERT INTO node_users VALUES (NULL, 'bob2@yopmail.fr', 'pass', 'bob', 'jesaispas', '1990-03-17')", (error, result) => {
+        if (error) {
+            console.log("ERROR :", error.code);
+            res.status(503).send("oups... an error as occured !");
+        } else {
+            console.log(result);
+            res.send({ status: "OK" });
+        }
+        sqlConnection.end();
+    });
 });
