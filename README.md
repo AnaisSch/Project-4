@@ -1,8 +1,8 @@
-- [ ] créer un dossier "public"
-- [ ] l'utiliser pour les fichiers statiques dans express
-- [ ] créer un index.html avec un formulaire HTML qui contient les champs suivants : 
-    - [ ] email
-    - [ ] password
-    - [ ] firstname
-    - [ ] lastname
-    - [ ] birthdate
+- [X] créer un dossier "public"
+- [X] l'utiliser pour les fichiers statiques dans express
+- [X] créer un index.html avec un formulaire HTML qui contient les champs suivants : 
+    - [X] email
+    - [X] password
+    - [X] firstname
+    - [X] lastname
+    - [X] birthdate
