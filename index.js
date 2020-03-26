@@ -11,6 +11,7 @@ app.listen(3000, () =>  {
 });
 
 app.use(express.static("./public"));
+app.use(express.urlencoded({ extended: true }));
 
 app.get("/api/user", (req, res) => {
     const sqlConnection = mysql.createConnection(sqlConfig);
@@ -30,16 +31,20 @@ app.get("/api/user", (req, res) => {
 app.route("/api/user/create")
     .get((req, res) => res.status(503).send({ status: "ERROR" }))
     .post((req, res) => {
+        console.log(req.body);
         const sqlConnection = mysql.createConnection(sqlConfig);
 
-        sqlConnection.query("INSERT INTO node_users VALUES (NULL, 'bob2@yopmail.fr', 'pass', 'bob', 'jesaispas', '1990-03-17')", (error, result) => {
-            if (error) {
-                console.log("ERROR :", error.code);
-                res.status(503).send({ status: "ERROR" });
-            } else {
-                console.log(result);
-                res.send({ status: "OK" });
-            }
-            sqlConnection.end();
-        });
+        sqlConnection.query(
+            "INSERT INTO node_users VALUES (NULL, ?, ?, ?, ?, ?)",
+            [req.body.email, req.body.password, req.body.firstname, req.body.lastname, req.body.birthdate],
+            (error, result) => {
+                if (error) {
+                    console.log("ERROR :", error.code);
+                    res.status(503).send({ status: "ERROR" });
+                } else {
+                    console.log(result);
+                    res.send({ status: "OK" });
+                }
+                sqlConnection.end();
+            });
     });
