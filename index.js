@@ -27,17 +27,19 @@ app.get("/api/user", (req, res) => {
         });
 });
 
-app.get("/api/user/create", (req, res) => {
-    const sqlConnection = mysql.createConnection(sqlConfig);
+app.route("/api/user/create")
+    .get((req, res) => res.status(503).send({ status: "ERROR" }))
+    .post((req, res) => {
+        const sqlConnection = mysql.createConnection(sqlConfig);
 
-    sqlConnection.query("INSERT INTO node_users VALUES (NULL, 'bob2@yopmail.fr', 'pass', 'bob', 'jesaispas', '1990-03-17')", (error, result) => {
-        if (error) {
-            console.log("ERROR :", error.code);
-            res.status(503).send("oups... an error as occured !");
-        } else {
-            console.log(result);
-            res.send({ status: "OK" });
-        }
-        sqlConnection.end();
+        sqlConnection.query("INSERT INTO node_users VALUES (NULL, 'bob2@yopmail.fr', 'pass', 'bob', 'jesaispas', '1990-03-17')", (error, result) => {
+            if (error) {
+                console.log("ERROR :", error.code);
+                res.status(503).send({ status: "ERROR" });
+            } else {
+                console.log(result);
+                res.send({ status: "OK" });
+            }
+            sqlConnection.end();
+        });
     });
-});
